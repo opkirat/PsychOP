@@ -1,14 +1,15 @@
 import json
 from datetime import datetime
+import re
 
 data_dict = {}
 i = 0
 
 
-with open("data/demo.txt") as f:
-
+with open("data/dubey.txt") as f:
     for line in f:
         line = line.strip() # Strip whitespace
+
         if " (Read by" in line:
             line = line.split(" (Read by")[0]  
 
@@ -24,8 +25,9 @@ with open("data/demo.txt") as f:
 
             ## Messages
             message = ""
+            pattern = r"^[A-Z][a-z]{2} \d{1,2}, \d{4}\s+\d{1,2}:\d{2}:\d{2} (?:AM|PM)(?: \(Read by.*\))?$"
             
-            while next_line != "":
+            while next_line != "" and not re.fullmatch(pattern, next_line.strip()):
                 if next_line.startswith("Edited ") and " later:" in next_line:
                     message = next_line.split(" later:", 1)[1].strip()
 
