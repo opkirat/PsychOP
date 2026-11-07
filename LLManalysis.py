@@ -25,7 +25,7 @@ class TrainingDataset(BaseModel):
 
 prompt = f"""
 You are preprocessing a chronological text message conversation
-between "Me" and "Dubey".
+between "Me" and "Dubey". No calcutions.
 
 Your task is to construct training examples for predicting
 Dubey's next response to Me.
