@@ -41,12 +41,12 @@ with open("data/dubey.txt") as f:
                     message = message + next_line + "\n"    
                 next_line = next(f, "").strip()
     
-            print(f"Sent Date: {date}")
-            print(f"Sent By: {sender}")
-            print(f"Message: {message}")
-            print(f"Reaction: {reaction}")
-            print(f"Reaction Emotoin: {reaction_emotion}")
-            print(f"Reacted By: {reacted_by}")
+            #print(f"Sent Date: {date}")
+            #print(f"Sent By: {sender}")
+            #print(f"Message: {message}")
+            #print(f"Reaction: {reaction}")
+            #print(f"Reaction Emotoin: {reaction_emotion}")
+            #print(f"Reacted By: {reacted_by}")
 
             ## Create our dictionary
             data_dict[i] = {
@@ -62,5 +62,16 @@ with open("data/dubey.txt") as f:
         except ValueError:
             pass
 
+
+sort_by_date = sorted(data_dict.values(), key=lambda message: message["date"])
+
+## Check for positive integers
+#for i in range(1, len(sort_by_date)):
+ #   second_date = sort_by_date[i]["date"]
+  #  first_date = sort_by_date[i - 1]["date"]
+   # gap = second_date - first_date
+    #print(gap)
+
+
 with open("data/messages.json", "w", encoding="utf-8") as f:
-    json.dump(data_dict, f, indent=4, ensure_ascii=False, default=str)
+    json.dump(sort_by_date, f, indent=4, ensure_ascii=False, default=str)
