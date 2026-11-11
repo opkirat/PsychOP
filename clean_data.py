@@ -6,9 +6,14 @@ data_dict = {}
 i = 0
 
 
-with open("data/dubey.txt") as f:
+with open("data/dubey.txt") as raw_file:
+    f = (
+        line.replace("This message responded to an earlier message.", "").strip()
+        for line in raw_file
+    )
     for line in f:
         line = line.strip() # Strip whitespace
+        line = line.replace("This message responded to an earlier message.", "").strip()
 
         if " (Read by" in line:
             line = line.split(" (Read by")[0]  
@@ -22,6 +27,8 @@ with open("data/dubey.txt") as f:
             reaction = "no"
             reaction_emotion = ""
             reacted_by = ""
+            external_link = "no"
+            context = "no"
 
             ## Messages
             message = ""
@@ -36,7 +43,11 @@ with open("data/dubey.txt") as f:
                     next_line = next(f, "").strip()
                     reaction_emotion = reaction_emotion + next_line.split(" by ", 1)[0]
                     reacted_by = reacted_by + next_line.split(" by ", 1)[1]
-                    
+
+                elif "https:" in next_line.strip():
+                    external_link = "yes"
+                    message = message + next_line + "\n"
+
                 else:
                     message = message + next_line + "\n"    
                 next_line = next(f, "").strip()
@@ -55,7 +66,8 @@ with open("data/dubey.txt") as f:
                 "message": message,
                 "reaction": reaction,
                 "reaction emotion": reaction_emotion,
-                "reacted by": reacted_by
+                "reacted by": reacted_by,
+                "external link": external_link
             }
             i = i + 1
 
